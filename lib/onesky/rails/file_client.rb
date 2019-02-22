@@ -79,8 +79,8 @@ NOTICE
       end
 
       def locale_file_name(file, to_locale)
-        if File.basename(file, '.*') == @base_locale.to_s
-          file.sub(@base_locale.to_s, to_locale)
+        if File.basename(file, '.*').split('.')[1] == @base_locale.to_s
+          file.sub('.'.concat(@base_locale.to_s), '.'.concat(to_locale == "ms_MY" ? "ms" : to_locale))
         else
           file
         end
@@ -98,7 +98,7 @@ NOTICE
       end
 
       def save_translation(response, string_path, locale, file)
-        locale_path = make_translation_dir(string_path, locale)
+        locale_path = string_path
         target_file = locale_file_name(file, locale)
 
         File.open(File.join(locale_path, target_file), 'w') do |f|
